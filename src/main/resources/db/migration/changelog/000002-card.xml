@@ -1,0 +1,53 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="ADDED CARD TABLE" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="card"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="card_seq" incrementBy="50"/>
+        <createTable tableName="card">
+            <column name="id" type="number(19, 0)" defaultValueSequenceNext="card_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"
+                    remarks="Версия записи для оптимистичной блокировки"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата создания записи"/>
+            <column name="created_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем создано"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата последнего обновления записи"/>
+            <column name="updated_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем обновлено"/>
+
+            <column name="number" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="owner_id" type="number(19, 0)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_card_owner_id" references="users(id)"/>
+            </column>
+            <column name="deactivation_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="decimal(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="FIXED CARD SEQ INCREMENT" author="PFILONOV">
+        <sql>alter sequence card_seq increment by 50;</sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,168 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="ADDED ROLE TABLE" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="role_seq" incrementBy="50"/>
+        <createTable tableName="role">
+            <column name="id" type="number(19, 0)" defaultValueSequenceNext="role_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"
+                    remarks="Версия записи для оптимистичной блокировки"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата создания записи"/>
+            <column name="created_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем создано"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата последнего обновления записи"/>
+            <column name="updated_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем обновлено"/>
+
+            <column name="code" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ADDED USERS TABLE" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="users_seq" incrementBy="50"/>
+        <createTable tableName="users">
+            <column name="id" type="number(19, 0)" defaultValueSequenceNext="users_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"
+                    remarks="Версия записи для оптимистичной блокировки"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата создания записи"/>
+            <column name="created_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем создано"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата последнего обновления записи"/>
+            <column name="updated_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем обновлено"/>
+
+            <column name="login" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_role_id" type="number(19, 0)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_users_active_role_id" references="role(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ADDED USER ROLE TABLE" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_role"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="user_role_seq" incrementBy="50"/>
+        <createTable tableName="user_role">
+            <column name="id" type="number(19, 0)" defaultValueSequenceNext="user_role_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"
+                    remarks="Версия записи для оптимистичной блокировки"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата создания записи"/>
+            <column name="created_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем создано"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата последнего обновления записи"/>
+            <column name="updated_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем обновлено"/>
+
+            <column name="user_id" type="number(19, 0)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_user_role_user_id" references="users(id)"/>
+            </column>
+            <column name="role_id" type="number(19, 0)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_user_role_role_id" references="role(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ADDED OPERATION TABLE" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="operation"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="operation_seq" incrementBy="50"/>
+        <createTable tableName="operation">
+            <column name="id" type="number(19, 0)" defaultValueSequenceNext="operation_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"
+                    remarks="Версия записи для оптимистичной блокировки"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата создания записи"/>
+            <column name="created_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем создано"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата последнего обновления записи"/>
+            <column name="updated_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем обновлено"/>
+
+            <column name="code" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ADDED ROLE OPERATION TABLE" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role_operation"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="role_operation_seq" incrementBy="50"/>
+        <createTable tableName="role_operation">
+            <column name="id" type="number(19, 0)" defaultValueSequenceNext="role_operation_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"
+                    remarks="Версия записи для оптимистичной блокировки"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата создания записи"/>
+            <column name="created_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем создано"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата последнего обновления записи"/>
+            <column name="updated_by" type="number(19, 0)" defaultValueComputed="'1'::numeric"
+                    remarks="Кем обновлено"/>
+
+            <column name="role_id" type="number(19, 0)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_role_operation_role_id" references="role(id)"/>
+            </column>
+            <column name="operation_id" type="number(19, 0)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_role_operation_operation_id" references="operation(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
