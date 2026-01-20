@@ -33,11 +33,10 @@ public class Card extends BaseEntity {
     private LocalDate deactivationDate;
 
     @Enumerated(STRING)
-    @Column(name = "type", nullable = false)
+    @Column(nullable = false)
     private CardStatus status = ACTIVE;
 
     @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal balance;
 
 }
-

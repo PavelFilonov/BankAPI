@@ -22,6 +22,9 @@ public class Role extends BaseEntity {
 	@Column(unique = true, nullable = false)
 	private String code;
 
+	@Column(nullable = false)
+	private String description;
+
 	@ManyToMany(fetch = LAZY)
 	@JoinTable(
 			name = "role_operation",
