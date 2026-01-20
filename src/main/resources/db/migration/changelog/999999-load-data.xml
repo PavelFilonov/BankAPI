@@ -1,0 +1,56 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="Заполнены роли" author="PFILONOV" runOnChange="true">
+        <preConditions onFail="WARN">
+            <tableExists tableName="role"/>
+        </preConditions>
+
+        <loadUpdateData
+                file="db/migration/data/ROLE.csv"
+                tableName="role"
+                encoding="UTF-8"
+                separator=","
+                primaryKey="code">
+            <column name="code" type="STRING"/>
+            <column name="description" type="STRING"/>
+        </loadUpdateData>
+    </changeSet>
+
+    <changeSet id="Заполнен тестовый пользователь" author="PFILONOV">
+        <preConditions onFail="WARN">
+            <tableExists tableName="users"/>
+        </preConditions>
+
+        <sql>
+            insert into users (id, login, password, active_role_id)
+            values (nextval('users_seq'), 'pfilonov', 'pass', 1);
+        </sql>
+    </changeSet>
+
+    <changeSet id="Заполнены роли тестового юзера" author="PFILONOV">
+        <sql splitStatements="false">
+            insert into user_role (id, user_id, role_id)
+            values (nextval('user_role_seq'), 101, 1);
+            insert into user_role (id, user_id, role_id)
+            values (nextval('user_role_seq'), 101, 51);
+        </sql>
+    </changeSet>
+
+    <changeSet id="Заполнены тестовые карты" author="PFILONOV">
+        <preConditions onFail="WARN">
+            <tableExists tableName="card"/>
+        </preConditions>
+
+        <sql splitStatements="false">
+            insert into card (id, number, owner_id, deactivation_date, status, balance)
+            values (nextval('card_seq'), '1111222233334444', 101, now() + interval '1 year', 'ACTIVE', 1000.50),
+                   (nextval('card_seq'), '1111222233335555', 101, now() + interval '1 year', 'ACTIVE', 300.00);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

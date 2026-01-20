@@ -5,7 +5,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-    <changeSet id="ADDED ROLE TABLE" author="PFILONOV">
+    <changeSet id="Добавлена таблица ролей" author="PFILONOV">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="role"/>
@@ -30,10 +30,13 @@
             <column name="code" type="varchar(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="description" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="ADDED USERS TABLE" author="PFILONOV">
+    <changeSet id="Добавлена таблица пользователей" author="PFILONOV">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="users"/>
@@ -68,7 +71,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="ADDED USER ROLE TABLE" author="PFILONOV">
+    <changeSet id="Добавлена таблица связки пользователей и ролей" author="PFILONOV">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="user_role"/>
@@ -101,7 +104,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="ADDED OPERATION TABLE" author="PFILONOV">
+    <changeSet id="Добавлена таблица операций" author="PFILONOV">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="operation"/>
@@ -132,7 +135,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="ADDED ROLE OPERATION TABLE" author="PFILONOV">
+    <changeSet id="Добавлена таблица связки ролей и операций" author="PFILONOV">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="role_operation"/>

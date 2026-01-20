@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CardStatus {
 
-	ACTIVE("Активна"),
-	BLOCKED("Заблокирована"),
-	EXPIRED("Истёк срок");
+    ACTIVE("Активна"),
+    BLOCKED("Заблокирована"),
+    REQUEST_TO_BLOCK("Запрошена блокировка"), // Введён статус для промежуточного состояния в ожидании блокировки
+    EXPIRED("Истёк срок");
 
-	@JsonValue
-	private final String value;
+    @JsonValue
+    private final String value;
 
 }

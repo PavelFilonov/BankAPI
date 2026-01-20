@@ -28,3 +28,15 @@ spring:
     enabled: true
     change-log: classpath:db/migration/db.changelog-master.xml
     default-schema: ${DATABASE_SCHEMA:public}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    urls:
+      - name: API
+        url: /v3/api-docs
