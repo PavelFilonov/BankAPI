@@ -1,8 +1,8 @@
 package com.example.bankapi.service.impl;
 
-import com.example.bankapi.dto.CardCreateDTO;
-import com.example.bankapi.dto.CardReadDTO;
-import com.example.bankapi.dto.TransferDTO;
+import com.example.bankapi.dto.card.CardCreateDTO;
+import com.example.bankapi.dto.card.CardReadDTO;
+import com.example.bankapi.dto.card.TransferDTO;
 import com.example.bankapi.entity.Card;
 import com.example.bankapi.exception.BusinessException;
 import com.example.bankapi.exception.NotFoundException;
@@ -46,9 +46,9 @@ public class CardServiceImpl implements CardService {
         entity.setStatus(ACTIVE);
         entity.setBalance(dto.getBalance());
 
-        Long ownerId = dto.getOwnerId();
-        var owner = userRepository.findById(ownerId)
-                .orElseThrow(() -> new NotFoundException(format("Владелец по ИД=%s не найден", ownerId)));
+        String ownerLogin = dto.getOwnerLogin();
+        var owner = userRepository.findByLogin(ownerLogin)
+                .orElseThrow(() -> new NotFoundException(format("Владелец по ИД=%s не найден", ownerLogin)));
         entity.setOwner(owner);
 
         return mapper.toReadDto(repository.saveAndFlush(entity));
@@ -62,8 +62,8 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CardReadDTO> getByUserId(Long userId, Pageable pageable) {
-        return repository.findAll(CardRepository.byOwnerIdSpec(userId), pageable)
+    public Page<CardReadDTO> getByUserLogin(String userLogin, Pageable pageable) {
+        return repository.findAll(CardRepository.byOwnerLoginSpec(userLogin), pageable)
                 .map(mapper::toReadDto);
     }
 
@@ -149,6 +149,12 @@ public class CardServiceImpl implements CardService {
         }
         LOCKS.computeIfPresent(firstId, (k, v) -> v == firstLock ? null : v);
         LOCKS.computeIfPresent(secondId, (k, v) -> v == secondLock ? null : v);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isOwnerOfCard(String login, Long cardId) {
+        return login.equals(getEntityById(cardId).getOwner().getLogin());
     }
 
     private Card getEntityById(Long id) {

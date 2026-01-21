@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleAnyException(Exception ex, HttpServletRequest request) {
+		ex.printStackTrace();
 		var status = resolveStatus(ex);
 
 		var response = ErrorResponse.builder()

@@ -1,6 +1,6 @@
 package com.example.bankapi.mapper;
 
-import com.example.bankapi.dto.CardReadDTO;
+import com.example.bankapi.dto.card.CardReadDTO;
 import com.example.bankapi.entity.Card;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;

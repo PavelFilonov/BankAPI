@@ -1,4 +1,4 @@
-package com.example.bankapi.dto;
+package com.example.bankapi.dto.card;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

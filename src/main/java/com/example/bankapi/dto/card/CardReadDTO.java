@@ -1,4 +1,4 @@
-package com.example.bankapi.dto;
+package com.example.bankapi.dto.card;
 
 import com.example.bankapi.enums.CardStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
