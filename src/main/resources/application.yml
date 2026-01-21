@@ -40,3 +40,8 @@ springdoc:
     urls:
       - name: API
         url: /v3/api-docs
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:X3jRNEuPGg54l6SX3jRNEuPGg54l6SX3jRNEuPGg54l6SX3jRNEuPGg54l6S}
+    expiration-ms: ${JWT_EXPIRATION_MS:3600000}

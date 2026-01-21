@@ -15,9 +15,44 @@
                 tableName="role"
                 encoding="UTF-8"
                 separator=","
-                primaryKey="code">
+                primaryKey="id">
+            <column name="id" type="NUMERIC"/>
             <column name="code" type="STRING"/>
             <column name="description" type="STRING"/>
+        </loadUpdateData>
+    </changeSet>
+
+    <changeSet id="Заполнены операции" author="PFILONOV" runOnChange="true">
+        <preConditions onFail="WARN">
+            <tableExists tableName="operation"/>
+        </preConditions>
+
+        <loadUpdateData
+                file="db/migration/data/OPERATION.csv"
+                tableName="operation"
+                encoding="UTF-8"
+                separator=","
+                primaryKey="id">
+            <column name="id" type="NUMERIC"/>
+            <column name="code" type="STRING"/>
+            <column name="description" type="STRING"/>
+        </loadUpdateData>
+    </changeSet>
+
+    <changeSet id="Заполнены ссылки ролей и операций" author="PFILONOV" runOnChange="true">
+        <preConditions onFail="WARN">
+            <tableExists tableName="role_operation"/>
+        </preConditions>
+
+        <loadUpdateData
+                file="db/migration/data/ROLE_OPERATION.csv"
+                tableName="role_operation"
+                encoding="UTF-8"
+                separator=","
+                primaryKey="id">
+            <column name="id" type="NUMERIC"/>
+            <column name="role_id" type="NUMERIC"/>
+            <column name="operation_id" type="NUMERIC"/>
         </loadUpdateData>
     </changeSet>
 
@@ -35,9 +70,9 @@
     <changeSet id="Заполнены роли тестового юзера" author="PFILONOV">
         <sql splitStatements="false">
             insert into user_role (id, user_id, role_id)
-            values (nextval('user_role_seq'), 101, 1);
+            values (nextval('user_role_seq'), 1, 1);
             insert into user_role (id, user_id, role_id)
-            values (nextval('user_role_seq'), 101, 51);
+            values (nextval('user_role_seq'), 1, 2);
         </sql>
     </changeSet>
 
@@ -48,8 +83,8 @@
 
         <sql splitStatements="false">
             insert into card (id, number, owner_id, deactivation_date, status, balance)
-            values (nextval('card_seq'), '1111222233334444', 101, now() + interval '1 year', 'ACTIVE', 1000.50),
-                   (nextval('card_seq'), '1111222233335555', 101, now() + interval '1 year', 'ACTIVE', 300.00);
+            values (nextval('card_seq'), '1111222233334444', 1, now() + interval '1 year', 'ACTIVE', 1000.50),
+                   (nextval('card_seq'), '1111222233335555', 1, now() + interval '1 year', 'ACTIVE', 300.00);
         </sql>
     </changeSet>
 

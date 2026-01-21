@@ -1,8 +1,8 @@
 package com.example.bankapi.service;
 
-import com.example.bankapi.dto.CardCreateDTO;
-import com.example.bankapi.dto.CardReadDTO;
-import com.example.bankapi.dto.TransferDTO;
+import com.example.bankapi.dto.card.CardCreateDTO;
+import com.example.bankapi.dto.card.CardReadDTO;
+import com.example.bankapi.dto.card.TransferDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,11 +27,11 @@ public interface CardService {
     /**
      * Получить карты пользователя
      *
-     * @param userId   ИД пользователя
-     * @param pageable параметры пагинации
+     * @param userLogin логин пользователя
+     * @param pageable  параметры пагинации
      * @return страница карт пользователя
      */
-    Page<CardReadDTO> getByUserId(Long userId, Pageable pageable);
+    Page<CardReadDTO> getByUserLogin(String userLogin, Pageable pageable);
 
     /**
      * Удалить карту
@@ -70,5 +70,13 @@ public interface CardService {
      * @param transferDTO ДТО перевода
      */
     void transfer(TransferDTO transferDTO);
+
+    /**
+     * Является ли пользователь владельцем карты
+     *
+     * @param login  логин пользователя
+     * @param cardId ИД карты
+     */
+    boolean isOwnerOfCard(String login, Long cardId);
 
 }

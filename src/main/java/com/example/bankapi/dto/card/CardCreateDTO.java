@@ -1,4 +1,4 @@
-package com.example.bankapi.dto;
+package com.example.bankapi.dto.card;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +19,7 @@ public class CardCreateDTO {
 
     @Schema(description = "Идентификатор владельца")
     @NotNull(message = "ИД владельца обязателен к заполнению")
-    private Long ownerId;
+    private String ownerLogin;
 
     @Schema(description = "Дата деактивации")
     @NotNull(message = "Дата деактивации обязательна к заполнению")
