@@ -6,6 +6,8 @@ import com.example.bankapi.entity.auth.User_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+
 @Repository
 public interface CardRepository extends BaseRepository<Card> {
 
@@ -15,6 +17,10 @@ public interface CardRepository extends BaseRepository<Card> {
 
     static Specification<Card> byOwnerLoginSpec(String ownerLogin) {
         return (root, query, cb) -> cb.equal(root.join(Card_.OWNER).get(User_.LOGIN), ownerLogin);
+    }
+
+    static Specification<Card> deactivationDateEarlierThanSpec(LocalDate date) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(Card_.DEACTIVATION_DATE), date);
     }
 
 }

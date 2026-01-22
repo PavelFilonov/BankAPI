@@ -1,0 +1,32 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="Добавлена таблица шедлока" author="PFILONOV">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="shedlock"/>
+            </not>
+        </preConditions>
+        <createTable tableName="shedlock" remarks="Таблица шедлока">
+            <column name="name" type="VARCHAR(64)" remarks="Имя (ключ) блокировки; уникальный идентификатор задачи">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="lock_until" type="TIMESTAMP"
+                    remarks="Момент времени, до которого удерживается блокировка (если текущее время меньше — блокировка активна)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked_at" type="TIMESTAMP" remarks="Время последней попытки захвата блокировки">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked_by" type="VARCHAR(255)"
+                    remarks="Идентификатор узла/процесса, удерживающего блокировку (например, host:process/thread)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

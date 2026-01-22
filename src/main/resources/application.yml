@@ -45,3 +45,13 @@ security:
   jwt:
     secret: ${JWT_SECRET:X3jRNEuPGg54l6SX3jRNEuPGg54l6SX3jRNEuPGg54l6SX3jRNEuPGg54l6S}
     expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+
+application:
+  cores: ${AVAILABLE_CORES:2}
+  scheduler:
+    pool-size: ${SCHEDULER_POOL_SIZE:2}
+    lock-at-most-for: PT30M
+    lock-at-least-for: PT5M
+    timezone: Etc/GMT
+    card-expiration:
+      cron: ${CARD_EXPIRATION_CRON:0 0 0 * * *} # по умолчанию каждую полночь
