@@ -8,6 +8,7 @@
 
     <include file="changelog/000001-auth.xml" relativeToChangelogFile="true"/>
     <include file="changelog/000002-card.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/000003-schedlock.xml" relativeToChangelogFile="true"/>
 
     <include file="changelog/999999-load-data.xml" relativeToChangelogFile="true"/>
 
